@@ -1,0 +1,67 @@
+ CREATE TABLE Aluno (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(20),
+    Data_de_Nascimento DATE,
+    Email VARCHAR(30)
+);
+
+CREATE TABLE Curso (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Nome_do_Curso VARCHAR(50),
+    Descricao VARCHAR(70),
+    Quantidade_Alunos INT
+    );
+    
+CREATE TABLE Professor (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(20),
+    Idade INT,
+    Email VARCHAR(30)
+    );
+    
+INSERT INTO Aluno (Nome, Data_de_Nascimento) VALUES ('João Silva', '2000-05-15');
+INSERT INTO Aluno (Nome, Data_de_Nascimento) VALUES ('Maria Oliveira', '1999-08-22');
+INSERT INTO Aluno (Nome, Data_de_Nascimento) VALUES ('Pedro Santos', '2001-03-10');
+INSERT INTO Aluno (Nome, Data_de_Nascimento) VALUES ('Ana Souza', '2002-11-30');
+
+INSERT INTO Curso (Nome_do_Curso, Descricao, Quantidade_Alunos) VALUES ('Banco de Dados', 'Curso sobre criação e manipulação de banco de dados', 30);
+INSERT INTO Curso (Nome_do_Curso, Descricao, Quantidade_Alunos) VALUES ('Construção de algoritmos', 'Curso introdutório a programção e algoritmos', 25);
+INSERT INTO Curso (Nome_do_Curso, Descricao, Quantidade_Alunos) VALUES ('Web Design', 'Curso sobre design de interfaces web', 20);
+INSERT INTO Curso (Nome_do_Curso, Descricao, Quantidade_Alunos) VALUES ('Marketing Digital', 'Curso abordando estratégias de marketing digital', 35);
+
+INSERT INTO Professor (Nome, Idade, Email) VALUES ('Carlos Oliveira', 35, 'carlosoliv@hotmail.com');
+INSERT INTO Professor (Nome, Idade, Email) VALUES ('Ana Costa', 42, 'anacosta87@gmail.com');
+INSERT INTO Professor (Nome, Idade, Email) VALUES ('Fernanda Santos', 50, 'fernandassantos@uol.com.br');
+INSERT INTO Professor (Nome, Idade, Email) VALUES ('Marcos Lima', 38, 'marcosplima21@outlook.com');
+
+DELIMITER $
+CREATE PROCEDURE novoCurso(
+Nome_do_Curso VARCHAR(50),
+Descricao VARCHAR(70),
+Quantidade_Alunos INT
+)
+BEGIN
+	INSERT INTO Curso VALUES (null, Nome_do_Curso, Descricao, Quantidade_Alunos);
+    END$    
+CREATE PROCEDURE selecionarCurso()
+BEGIN    
+	SELECT * FROM Curso;
+    END$
+DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE gerarEmail(
+IN Nome VARCHAR(20),
+IN Data_de_Nascimento DATE,
+OUT Email VARCHAR(30)
+)
+BEGIN
+    SET Email = CONCAT(Nome, '.', DATE_FORMAT(Data_de_Nascimento, '%Y%m%d'), '@dominio.com');
+    END$
+DELIMITER ;
+
+
+
+//verificando os procedimentos criados
+CALL novoCurso('Cálculo I', 'Curso introdutório para operações matemáticas', 28);
+CALL selecionarCurso();
